@@ -3,7 +3,9 @@ MSDS 6306: Case Study 2
 
 RMarkdown file: executive summary, intro to project, supporting code and analysis, presentation slides, the link to the YouTube video 
 
-https://hallepurdom.github.io/: RMD knit file, Youtube link, RShiny App link
+https://hallepurdom.github.io/: RMD knit file, Youtube link
+
+Presentation: https://youtu.be/nQwzh4BQkX4
 
 CaseStudy2-data.csv
 
