@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Halle Purdom" />
+
+
+<title>HallePurdom_CaseStudy2</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.9.3/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">About Me</a>
+</li>
+<li>
+  <a href="Project-1--DS-6306-.html">Case Study 1</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">HallePurdom_CaseStudy2</h1>
+<h4 class="author">Halle Purdom</h4>
+<h4 class="date">4/17/2021</h4>
+
+</div>
+
+
+<p>#Introduction: #In this work, employee data from DDSAnalytics will be analyzed to answer 2 questions of interest. First, three top factors will be identified that best predict turnover (attrition) in an employee. K-nearest neighbors classification method will be used for this section- Naive Bayes classification method was tested but unable to reach the 60% specificity and sensitivity requirement. The model built from this will be used to predict a test set of data where the attrition is not given to test it’s effectiveness. Second, a linear regression model will be created that predicts salary (monthly income) of employees. This prediction model should minimize RMSE and will be tested by predicting a given test set that has salary removed from the data.</p>
+<p>#Website: <a href="https://hallepurdom.github.io/" class="uri">https://hallepurdom.github.io/</a> #Presentation: <a href="https://youtu.be/nQwzh4BQkX4" class="uri">https://youtu.be/nQwzh4BQkX4</a></p>
+<pre class="r"><code>#loading necessary libraries
+library(naniar)
+library(class)
+library(olsrr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;olsrr&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:datasets&#39;:
+## 
+##     rivers</code></pre>
+<pre class="r"><code>library(cowplot)
+library(ggplot2)
+library(IDPmisc)
+library(e1071)
+library(caret)</code></pre>
+<pre><code>## Loading required package: lattice</code></pre>
+<pre class="r"><code>library(GGally)</code></pre>
+<pre><code>## Registered S3 method overwritten by &#39;GGally&#39;:
+##   method from   
+##   +.gg   ggplot2</code></pre>
+<pre class="r"><code>library(dplyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>library(ggiraphExtra)
+library(&quot;readxl&quot;)
+
+#DATASET RAW
+cs2 = read.csv(&quot;/Users/hallepurdom/RStudio Projects/MSDS_6306_Doing-Data-Science/Unit 14 and 15 Case Study 2/CaseStudy2-data.csv&quot;, header=TRUE)
+
+head(cs2)</code></pre>
+<pre><code>##   ID Age Attrition    BusinessTravel DailyRate             Department
+## 1  1  32        No     Travel_Rarely       117                  Sales
+## 2  2  40        No     Travel_Rarely      1308 Research &amp; Development
+## 3  3  35        No Travel_Frequently       200 Research &amp; Development
+## 4  4  32        No     Travel_Rarely       801                  Sales
+## 5  5  24        No Travel_Frequently       567 Research &amp; Development
+## 6  6  27        No Travel_Frequently       294 Research &amp; Development
+##   DistanceFromHome Education   EducationField EmployeeCount EmployeeNumber
+## 1               13         4    Life Sciences             1            859
+## 2               14         3          Medical             1           1128
+## 3               18         2    Life Sciences             1           1412
+## 4                1         4        Marketing             1           2016
+## 5                2         1 Technical Degree             1           1646
+## 6               10         2    Life Sciences             1            733
+##   EnvironmentSatisfaction Gender HourlyRate JobInvolvement JobLevel
+## 1                       2   Male         73              3        2
+## 2                       3   Male         44              2        5
+## 3                       3   Male         60              3        3
+## 4                       3 Female         48              3        3
+## 5                       1 Female         32              3        1
+## 6                       4   Male         32              3        3
+##                  JobRole JobSatisfaction MaritalStatus MonthlyIncome
+## 1        Sales Executive               4      Divorced          4403
+## 2      Research Director               3        Single         19626
+## 3 Manufacturing Director               4        Single          9362
+## 4        Sales Executive               4       Married         10422
+## 5     Research Scientist               4        Single          3760
+## 6 Manufacturing Director               1      Divorced          8793
+##   MonthlyRate NumCompaniesWorked Over18 OverTime PercentSalaryHike
+## 1        9250                  2      Y       No                11
+## 2       17544                  1      Y       No                14
+## 3       19944                  2      Y       No                11
+## 4       24032                  1      Y       No                19
+## 5       17218                  1      Y      Yes                13
+## 6        4809                  1      Y       No                21
+##   PerformanceRating RelationshipSatisfaction StandardHours StockOptionLevel
+## 1                 3                        3            80                1
+## 2                 3                        1            80                0
+## 3                 3                        3            80                0
+## 4                 3                        3            80                2
+## 5                 3                        3            80                0
+## 6                 4                        3            80                2
+##   TotalWorkingYears TrainingTimesLastYear WorkLifeBalance YearsAtCompany
+## 1                 8                     3               2              5
+## 2                21                     2               4             20
+## 3                10                     2               3              2
+## 4                14                     3               3             14
+## 5                 6                     2               3              6
+## 6                 9                     4               2              9
+##   YearsInCurrentRole YearsSinceLastPromotion YearsWithCurrManager
+## 1                  2                       0                    3
+## 2                  7                       4                    9
+## 3                  2                       2                    2
+## 4                 10                       5                    7
+## 5                  3                       1                    3
+## 6                  7                       1                    7</code></pre>
+<pre class="r"><code>#STANDARDIZATION FOR KNN
+cs2Stan&lt;- cs2
+for(i in 1:ncol(cs2Stan)) {      
+  if(class(cs2Stan[,i]) == &quot;integer&quot;){
+    cat(&quot;cs2Stan$&quot;,colnames(cs2Stan)[i],&quot;= scale(cs2Stan$&quot;,sep=&quot;&quot;, colnames(cs2Stan)[i],&quot;)\n&quot;)
+  }
+}</code></pre>
+<pre><code>## cs2Stan$ID= scale(cs2Stan$ID)
+## cs2Stan$Age= scale(cs2Stan$Age)
+## cs2Stan$DailyRate= scale(cs2Stan$DailyRate)
+## cs2Stan$DistanceFromHome= scale(cs2Stan$DistanceFromHome)
+## cs2Stan$Education= scale(cs2Stan$Education)
+## cs2Stan$EmployeeCount= scale(cs2Stan$EmployeeCount)
+## cs2Stan$EmployeeNumber= scale(cs2Stan$EmployeeNumber)
+## cs2Stan$EnvironmentSatisfaction= scale(cs2Stan$EnvironmentSatisfaction)
+## cs2Stan$HourlyRate= scale(cs2Stan$HourlyRate)
+## cs2Stan$JobInvolvement= scale(cs2Stan$JobInvolvement)
+## cs2Stan$JobLevel= scale(cs2Stan$JobLevel)
+## cs2Stan$JobSatisfaction= scale(cs2Stan$JobSatisfaction)
+## cs2Stan$MonthlyIncome= scale(cs2Stan$MonthlyIncome)
+## cs2Stan$MonthlyRate= scale(cs2Stan$MonthlyRate)
+## cs2Stan$NumCompaniesWorked= scale(cs2Stan$NumCompaniesWorked)
+## cs2Stan$PercentSalaryHike= scale(cs2Stan$PercentSalaryHike)
+## cs2Stan$PerformanceRating= scale(cs2Stan$PerformanceRating)
+## cs2Stan$RelationshipSatisfaction= scale(cs2Stan$RelationshipSatisfaction)
+## cs2Stan$StandardHours= scale(cs2Stan$StandardHours)
+## cs2Stan$StockOptionLevel= scale(cs2Stan$StockOptionLevel)
+## cs2Stan$TotalWorkingYears= scale(cs2Stan$TotalWorkingYears)
+## cs2Stan$TrainingTimesLastYear= scale(cs2Stan$TrainingTimesLastYear)
+## cs2Stan$WorkLifeBalance= scale(cs2Stan$WorkLifeBalance)
+## cs2Stan$YearsAtCompany= scale(cs2Stan$YearsAtCompany)
+## cs2Stan$YearsInCurrentRole= scale(cs2Stan$YearsInCurrentRole)
+## cs2Stan$YearsSinceLastPromotion= scale(cs2Stan$YearsSinceLastPromotion)
+## cs2Stan$YearsWithCurrManager= scale(cs2Stan$YearsWithCurrManager)</code></pre>
+<pre class="r"><code>#cs2Stan$ID= scale(cs2Stan$ID)
+cs2Stan$Age= scale(cs2Stan$Age)
+cs2Stan$DailyRate= scale(cs2Stan$DailyRate)
+cs2Stan$DistanceFromHome= scale(cs2Stan$DistanceFromHome)
+cs2Stan$Education= scale(cs2Stan$Education)
+cs2Stan$EmployeeCount= scale(cs2Stan$EmployeeCount)
+cs2Stan$EmployeeNumber= scale(cs2Stan$EmployeeNumber)
+cs2Stan$EnvironmentSatisfaction= scale(cs2Stan$EnvironmentSatisfaction)
+cs2Stan$HourlyRate= scale(cs2Stan$HourlyRate)
+cs2Stan$JobInvolvement= scale(cs2Stan$JobInvolvement)
+cs2Stan$JobLevel= scale(cs2Stan$JobLevel)
+cs2Stan$JobSatisfaction= scale(cs2Stan$JobSatisfaction)
+cs2Stan$MonthlyIncome= scale(cs2Stan$MonthlyIncome)
+cs2Stan$MonthlyRate= scale(cs2Stan$MonthlyRate)
+cs2Stan$NumCompaniesWorked= scale(cs2Stan$NumCompaniesWorked)
+cs2Stan$PercentSalaryHike= scale(cs2Stan$PercentSalaryHike)
+cs2Stan$PerformanceRating= scale(cs2Stan$PerformanceRating)
+cs2Stan$RelationshipSatisfaction= scale(cs2Stan$RelationshipSatisfaction)
+cs2Stan$StandardHours= scale(cs2Stan$StandardHours)
+cs2Stan$StockOptionLevel= scale(cs2Stan$StockOptionLevel)
+cs2Stan$TotalWorkingYears= scale(cs2Stan$TotalWorkingYears)
+cs2Stan$TrainingTimesLastYear= scale(cs2Stan$TrainingTimesLastYear)
+cs2Stan$WorkLifeBalance= scale(cs2Stan$WorkLifeBalance)
+cs2Stan$YearsAtCompany= scale(cs2Stan$YearsAtCompany)
+cs2Stan$YearsInCurrentRole= scale(cs2Stan$YearsInCurrentRole)
+cs2Stan$YearsSinceLastPromotion= scale(cs2Stan$YearsSinceLastPromotion)
+cs2Stan$YearsWithCurrManager= scale(cs2Stan$YearsWithCurrManager)
+
+#ONLY NUMERIC FOR LIN REG
+for(i in 1:ncol(cs2)) {      
+  if(class(cs2[,i]) == &quot;integer&quot;){
+    cat(&quot;&#39;&quot;,colnames(cs2)[i],&quot;&#39;&quot;,&quot;= cs2$&quot;,sep=&quot;&quot;, colnames(cs2)[i],&quot;,&quot;)
+  }
+}</code></pre>
+<pre><code>## &#39;ID&#39;= cs2$ID,&#39;Age&#39;= cs2$Age,&#39;DailyRate&#39;= cs2$DailyRate,&#39;DistanceFromHome&#39;= cs2$DistanceFromHome,&#39;Education&#39;= cs2$Education,&#39;EmployeeCount&#39;= cs2$EmployeeCount,&#39;EmployeeNumber&#39;= cs2$EmployeeNumber,&#39;EnvironmentSatisfaction&#39;= cs2$EnvironmentSatisfaction,&#39;HourlyRate&#39;= cs2$HourlyRate,&#39;JobInvolvement&#39;= cs2$JobInvolvement,&#39;JobLevel&#39;= cs2$JobLevel,&#39;JobSatisfaction&#39;= cs2$JobSatisfaction,&#39;MonthlyIncome&#39;= cs2$MonthlyIncome,&#39;MonthlyRate&#39;= cs2$MonthlyRate,&#39;NumCompaniesWorked&#39;= cs2$NumCompaniesWorked,&#39;PercentSalaryHike&#39;= cs2$PercentSalaryHike,&#39;PerformanceRating&#39;= cs2$PerformanceRating,&#39;RelationshipSatisfaction&#39;= cs2$RelationshipSatisfaction,&#39;StandardHours&#39;= cs2$StandardHours,&#39;StockOptionLevel&#39;= cs2$StockOptionLevel,&#39;TotalWorkingYears&#39;= cs2$TotalWorkingYears,&#39;TrainingTimesLastYear&#39;= cs2$TrainingTimesLastYear,&#39;WorkLifeBalance&#39;= cs2$WorkLifeBalance,&#39;YearsAtCompany&#39;= cs2$YearsAtCompany,&#39;YearsInCurrentRole&#39;= cs2$YearsInCurrentRole,&#39;YearsSinceLastPromotion&#39;= cs2$YearsSinceLastPromotion,&#39;YearsWithCurrManager&#39;= cs2$YearsWithCurrManager,</code></pre>
+<pre class="r"><code>cs2Num &lt;- data.frame(&#39;Age&#39;= cs2$Age,&#39;DailyRate&#39;= cs2$DailyRate,&#39;DistanceFromHome&#39;= cs2$DistanceFromHome,&#39;Education&#39;= cs2$Education,&#39;EmployeeCount&#39;= cs2$EmployeeCount,&#39;EmployeeNumber&#39;= cs2$EmployeeNumber,&#39;EnvironmentSatisfaction&#39;= cs2$EnvironmentSatisfaction,&#39;HourlyRate&#39;= cs2$HourlyRate,&#39;JobInvolvement&#39;= cs2$JobInvolvement,&#39;JobLevel&#39;= cs2$JobLevel,&#39;JobSatisfaction&#39;= cs2$JobSatisfaction,&#39;MonthlyIncome&#39;= cs2$MonthlyIncome,&#39;MonthlyRate&#39;= cs2$MonthlyRate,&#39;NumCompaniesWorked&#39;= cs2$NumCompaniesWorked,&#39;PercentSalaryHike&#39;= cs2$PercentSalaryHike,&#39;PerformanceRating&#39;= cs2$PerformanceRating,&#39;RelationshipSatisfaction&#39;= cs2$RelationshipSatisfaction,&#39;StandardHours&#39;= cs2$StandardHours,&#39;StockOptionLevel&#39;= cs2$StockOptionLevel,&#39;TotalWorkingYears&#39;= cs2$TotalWorkingYears,&#39;TrainingTimesLastYear&#39;= cs2$TrainingTimesLastYear,&#39;WorkLifeBalance&#39;= cs2$WorkLifeBalance,&#39;YearsAtCompany&#39;= cs2$YearsAtCompany,&#39;YearsInCurrentRole&#39;= cs2$YearsInCurrentRole,&#39;YearsSinceLastPromotion&#39;= cs2$YearsSinceLastPromotion,&#39;YearsWithCurrManager&#39;= cs2$YearsWithCurrManager)</code></pre>
+<p>#knn final model: Age, Monthly Income, and Years with Current Manager</p>
+<pre class="r"><code>#finding best k
+set.seed(1)
+iterations = 10 #usually 100, minimized to run faster with knit
+numks = 100
+
+masterAcc = matrix(nrow = iterations, ncol = numks)
+masterSpec = matrix(nrow = iterations, ncol = numks)
+masterSen = matrix(nrow = iterations, ncol = numks)
+
+for(j in 1:iterations)
+{
+  for(i in 1:numks)
+  {
+    CM = confusionMatrix(table(cs2Stan[,3],knn.cv(cs2Stan[,c(20,36,2)],cs2Stan[,3],k = i)))
+    
+    masterAcc[j,i] = CM$overall[1]
+    masterSpec[j,i] = CM$byClass[2]
+    masterSen[j,i] = CM$byClass[1]
+  }
+}
+
+MeanAcc = colMeans(masterAcc)
+MeanSpec = colMeans(masterSpec)
+MeanSen = colMeans(masterSen)
+
+plot(seq(1,numks,1),MeanAcc, type = &quot;l&quot;)</code></pre>
+<p><img src="HallePurdom_CaseStudy2_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code>plot(seq(1,numks,1),MeanSpec, type = &quot;l&quot;)</code></pre>
+<p><img src="HallePurdom_CaseStudy2_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
+<pre class="r"><code>plot(seq(1,numks,1),MeanSen, type = &quot;l&quot;)</code></pre>
+<p><img src="HallePurdom_CaseStudy2_files/figure-html/unnamed-chunk-2-3.png" width="672" /></p>
+<pre class="r"><code>which.max(MeanAcc)</code></pre>
+<pre><code>## [1] 21</code></pre>
+<pre class="r"><code>which.max(MeanSpec)</code></pre>
+<pre><code>## [1] 45</code></pre>
+<pre class="r"><code>which.max(MeanSen)</code></pre>
+<pre><code>## [1] 10</code></pre>
+<pre class="r"><code>#Using 45-nn model
+CM = confusionMatrix(table(cs2Stan[,3],knn.cv(cs2Stan[,c(20,36,2)],cs2Stan[,3],k = 45)))
+CM$overall[1] #Accuracy</code></pre>
+<pre><code>##  Accuracy 
+## 0.8436782</code></pre>
+<pre class="r"><code>CM$byClass[1] #Sensitivity</code></pre>
+<pre><code>## Sensitivity 
+##   0.8445476</code></pre>
+<pre class="r"><code>CM$byClass[2] #Specificity</code></pre>
+<pre><code>## Specificity 
+##        0.75</code></pre>
+<pre class="r"><code>CM</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##      
+##        No Yes
+##   No  728   2
+##   Yes 134   6
+##                                           
+##                Accuracy : 0.8437          
+##                  95% CI : (0.8178, 0.8672)
+##     No Information Rate : 0.9908          
+##     P-Value [Acc &gt; NIR] : 1               
+##                                           
+##                   Kappa : 0.0648          
+##                                           
+##  Mcnemar&#39;s Test P-Value : &lt;2e-16          
+##                                           
+##             Sensitivity : 0.84455         
+##             Specificity : 0.75000         
+##          Pos Pred Value : 0.99726         
+##          Neg Pred Value : 0.04286         
+##              Prevalence : 0.99080         
+##          Detection Rate : 0.83678         
+##    Detection Prevalence : 0.83908         
+##       Balanced Accuracy : 0.79727         
+##                                           
+##        &#39;Positive&#39; Class : No              
+## </code></pre>
+<p>#knn 3D visualizations</p>
+<pre class="r"><code>#3D plot of variables in KNN model Visualization
+library(ggthemes)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;ggthemes&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggiraphExtra&#39;:
+## 
+##     theme_clean</code></pre>
+<pre><code>## The following object is masked from &#39;package:cowplot&#39;:
+## 
+##     theme_map</code></pre>
+<pre class="r"><code>library(plotly)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;plotly&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     last_plot</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     filter</code></pre>
+<pre><code>## The following object is masked from &#39;package:graphics&#39;:
+## 
+##     layout</code></pre>
+<pre class="r"><code>p &lt;- plot_ly(cs2, x = ~Age, y = ~MonthlyIncome, z = ~YearsWithCurrManager, color = ~Attrition) %&gt;%
+   add_markers(alpha = 0.8, marker = list(size = 7)) %&gt;%
+   layout(scene = list(xaxis = list(title = &#39;Age&#39;),
+                      yaxis = list(title = &#39;MonthlyIncome&#39;),
+                      zaxis = list(title = &#39;YearsWithCurrManager&#39;)))
+p</code></pre>
+<pre><code>## Warning in RColorBrewer::brewer.pal(N, &quot;Set2&quot;): minimal value for n is 3, returning requested palette with 3 different levels
+
+## Warning in RColorBrewer::brewer.pal(N, &quot;Set2&quot;): minimal value for n is 3, returning requested palette with 3 different levels</code></pre>
+<div id="htmlwidget-f61fee174373e2b94fbc" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f61fee174373e2b94fbc">{"x":{"visdat":{"447819f4d85e":["function () ","plotlyVisDat"]},"cur_data":"447819f4d85e","attrs":{"447819f4d85e":{"x":{},"y":{},"z":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter3d","mode":"markers","alpha":0.8,"marker":{"size":7},"inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"Age"},"yaxis":{"title":"MonthlyIncome"},"zaxis":{"title":"YearsWithCurrManager"}},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[32,40,35,32,24,27,41,37,34,34,43,28,35,30,46,31,32,46,34,44,36,48,43,31,33,44,38,52,32,33,46,35,32,32,56,31,58,45,49,42,23,42,38,27,38,58,44,45,31,41,29,37,36,31,18,32,35,23,35,37,41,28,41,30,34,46,45,31,35,38,37,36,59,47,27,46,38,35,50,42,46,37,29,34,27,31,34,23,53,26,29,55,32,28,52,52,35,35,37,25,29,41,34,36,21,45,38,29,35,45,43,46,29,49,42,39,43,40,54,37,56,58,46,37,40,29,33,33,24,28,32,32,41,34,30,40,43,42,30,33,42,35,49,33,52,29,30,47,46,33,53,21,32,38,35,38,43,39,39,28,25,47,50,28,30,31,46,48,26,51,51,49,44,24,32,32,32,44,30,41,41,42,37,42,27,40,38,48,30,26,34,33,28,38,30,35,22,24,49,45,35,54,43,42,32,25,50,42,45,29,29,29,31,32,41,41,33,36,45,40,43,31,30,34,25,29,24,35,34,33,30,45,34,27,36,55,56,22,43,55,43,41,40,31,38,33,34,36,35,45,36,27,47,40,35,34,32,35,55,35,24,50,34,55,25,34,40,51,60,47,34,24,39,19,32,34,30,46,39,27,44,42,38,42,49,27,59,35,34,27,36,28,33,30,30,39,34,26,44,56,42,31,40,40,41,34,26,32,36,52,40,55,56,34,40,23,32,31,30,45,37,20,50,42,29,47,26,48,23,38,35,29,36,34,26,31,60,42,31,46,56,44,30,42,47,36,35,43,31,36,53,43,36,41,37,32,35,30,36,37,29,34,37,18,28,43,30,21,34,27,40,29,40,27,26,38,32,29,44,46,47,38,42,38,45,33,44,33,48,40,31,51,56,36,42,36,50,31,38,36,36,53,27,45,45,28,46,37,26,52,37,29,31,34,56,31,34,49,50,29,35,36,51,45,37,36,39,29,47,32,51,37,38,39,32,33,21,51,42,30,34,45,49,59,53,45,31,35,38,36,29,32,43,38,42,42,30,33,27,38,34,34,49,40,38,45,41,28,36,48,40,37,54,34,42,26,36,58,27,31,30,44,32,42,50,41,28,34,26,37,38,44,39,29,25,42,38,28,44,40,38,37,35,22,49,40,33,35,40,27,24,32,30,29,53,59,38,26,33,35,41,30,34,33,44,39,35,47,34,35,27,24,38,55,34,55,34,38,36,43,35,42,34,24,30,40,55,40,26,35,35,60,40,48,26,51,54,41,36,32,34,46,35,34,29,29,54,37,33,28,27,46,36,40,36,31,25,43,36,57,28,31,33,38,38,42,37,47,48,36,46,29,34,35,59,41,54,31,38,50,30,57,48,36,36,30,28,28,37,37,34,36,42,25,37,34,22,43,34,27,39,59,35,35,25,31,37,23,25,24,34,24,33,50,54,44,35,49,38,47,41,50,34,45,41,40,46,45,33,46,39,42,23,30,32,26,39,33,33,47,31,51,55,25,49,34,38,36,49,45,36,33,31,39,44,36,25,22,30,27,30,25,24,47,38,33,30,33,30,32,29,34,36,46,34,38,50,45,28,19,55,37,37,34,47,48,29,52,34,34,28,19,39,26,30,29,28,35,35,31,41,51,43,47,45,48,32,47,45,35],"y":[4403,19626,9362,10422,3760,8793,2127,6694,2220,5063,19392,2706,10221,2476,3423,6932,6725,5258,2932,5033,8847,8120,5679,5332,6949,18213,9924,4258,4668,2028,16872,2258,9679,2794,19717,2791,16291,6632,2587,19613,1223,3673,8740,2024,2619,19701,2011,4447,4424,2289,4723,13603,7094,3067,1514,3298,6646,2647,2194,2115,2782,8463,4766,4011,7083,17567,8865,1129,6883,5321,5974,5410,13726,4960,8726,18947,1702,6142,19926,4907,16606,5163,3180,3294,2099,10793,6538,2819,16598,4420,4319,19636,2439,2703,17099,10445,5093,8966,7642,4950,4025,2451,6687,11713,2380,10761,4028,4554,5204,5906,4081,13225,4187,4507,4523,5295,5257,4244,10739,7428,13402,2372,10845,6502,6377,4649,2756,6392,3597,4877,5396,5484,6870,2008,4736,5677,10820,13191,5126,7104,6545,8020,16413,16184,5577,2514,5304,5467,10527,8380,14852,2070,8998,8686,10274,6893,4739,8376,3755,2070,5206,15972,19144,4221,5775,9637,4810,4051,3904,2723,2075,13120,10248,2127,6220,6162,3931,2559,3204,8189,13570,18303,4680,6062,2045,2345,9824,17174,2632,2875,6274,5368,1563,4771,3748,1951,2328,4999,13966,5770,2014,5940,16959,18880,6322,2187,13269,7406,18061,2703,5056,2532,7143,2269,5467,16595,2008,5079,2274,13757,2438,2789,4779,9713,3977,2157,2774,2426,17007,5968,9957,5154,5433,3540,5647,18722,19943,2244,2455,4035,7847,4721,6513,7547,2844,5207,2661,9738,2572,2270,5674,2279,11957,16437,2660,9547,6524,9069,3537,5098,3162,2380,2979,6385,4851,5484,13237,6132,5405,4163,2231,4617,6120,2994,2332,2691,3761,4615,12742,2318,19049,5410,2133,16799,15379,7412,18844,4968,7756,2341,3419,3867,7119,2083,4115,13341,4033,6397,2290,11103,13348,6929,4422,4069,10447,4759,2368,6162,3210,19999,19436,19187,13212,4444,5473,2073,5055,4148,8412,5210,3936,2728,14411,5087,2168,18300,2942,5486,2322,13582,8789,4262,4502,6500,4157,3065,10266,2515,2695,17861,6306,10209,6091,5265,2105,8008,2559,16627,5468,2741,15427,17159,2342,9241,3022,4648,5762,2564,3688,6474,11935,4325,4449,1611,4724,10798,1274,3230,5957,4478,3544,2109,9705,6214,2867,7625,4998,2974,3195,19328,3420,4735,5538,2406,4385,4878,3420,5487,15402,19833,5476,5441,2066,5810,2093,2013,9208,5238,3944,2644,3038,4450,2226,13245,3452,2207,5772,6334,4306,2950,13744,5373,2356,5747,4257,2911,6142,18665,16880,5869,8606,5673,16307,2654,2326,5237,5736,9980,17169,5878,10596,2793,5343,10920,3433,13458,2610,5482,2766,4627,2553,9724,19502,2177,7525,5006,6833,2859,8823,6815,2700,6667,2089,7351,2696,5155,3491,3143,2566,6553,4381,2929,7403,5094,12061,2177,19189,4936,3886,2259,4876,9602,3780,3622,4434,5296,2088,15787,2811,11031,3833,2436,2176,6244,13973,4393,6834,6799,6272,5993,2858,3162,5042,6623,3669,15992,5811,4779,6465,2741,5329,3629,4014,2814,3211,10435,4037,10903,3448,6142,2033,4087,11416,3131,14814,5473,5605,3578,2342,5363,6811,7264,3986,3838,5454,9991,1281,5067,3280,8837,2517,4162,11510,10976,8621,2662,9888,6861,2835,9985,2376,17665,8628,2725,2693,4448,16756,10855,2305,4312,2450,5220,13499,12504,4741,12490,16032,6032,6499,5309,2768,10368,3917,4568,6294,7918,17779,13664,5505,4898,3517,18789,5228,6323,5131,2329,4256,2258,5347,9439,2713,10648,2622,2592,6077,6781,9525,3294,15202,5914,19081,2804,5714,10377,2267,6230,6854,2109,3702,17924,11916,14118,2559,9699,7587,6578,3660,7655,9434,5768,2996,8858,3968,4898,2973,3815,2523,4765,2972,6500,12031,5171,4601,3681,8639,11557,4285,3295,4907,2296,5343,3907,2500,11245,13549,3708,4014,6651,3306,16752,6151,6347,3737,5769,3376,10932,7379,5593,4682,10453,10938,10124,3505,2064,2827,2570,4553,2277,4539,4978,16422,13116,19038,2096,4789,2311,7756,10096,6804,13496,6842,5376,6582,17068,2042,8321,6232,2323,2862,3058,3072,3229,4260,19658,2899,2781,6877,11691,2720,3312,6931,6712,4663,19627,4538,2468,18200,3633,3196,2552,13577,8834,2996,5337,10333,19665,7988,13826,8500,6029,4558,1483,9613,2544,2206,4193,5661,4788,2404,8943,2238,2838,10231,13770,9380,7898,4465,4591,4477,4425],"z":[3,9,2,7,3,7,3,0,0,7,14,2,6,0,7,0,3,0,2,2,2,2,7,3,4,10,7,2,7,13,7,7,0,3,7,2,14,1,2,1,1,8,7,2,0,5,7,8,8,4,5,2,7,2,0,5,8,4,2,7,0,3,0,7,6,12,8,0,7,7,7,12,3,7,7,1,0,4,4,6,1,0,2,2,4,9,2,2,8,7,9,4,2,2,8,0,0,7,9,1,3,8,11,5,2,2,5,9,9,8,8,8,9,4,4,0,0,7,8,3,9,2,7,1,8,2,6,2,2,0,8,8,2,0,2,10,1,0,0,2,2,9,2,5,9,7,7,7,2,8,2,2,7,7,4,7,2,2,7,4,7,2,6,4,9,2,8,7,1,0,3,3,17,0,9,8,2,1,2,7,10,0,0,2,1,2,0,7,4,2,4,2,0,3,7,0,2,2,12,9,2,5,12,14,5,2,11,8,0,4,2,3,10,2,3,8,0,7,0,8,2,2,2,0,2,2,2,3,9,8,2,7,9,8,2,15,2,2,7,2,8,17,3,7,0,7,2,8,2,2,8,3,12,7,2,9,3,8,2,8,4,0,0,7,2,1,13,0,2,7,2,2,4,1,2,8,3,7,8,0,10,2,7,9,0,7,2,2,4,0,0,2,2,0,3,10,2,4,0,1,7,7,0,2,5,12,3,8,11,9,9,11,7,10,1,2,7,3,8,11,7,2,9,0,3,1,7,2,0,11,8,2,7,2,0,3,11,2,2,1,9,2,2,2,0,2,1,0,7,7,7,0,3,7,0,0,7,7,0,11,7,3,7,0,4,0,0,0,9,4,0,0,0,7,6,8,7,2,2,2,2,9,0,9,5,1,3,9,2,8,2,0,0,8,0,3,1,4,2,2,0,3,2,0,3,2,8,0,0,4,8,2,2,11,2,3,3,2,2,4,3,7,17,2,2,7,2,8,6,5,2,8,9,5,3,12,2,2,4,7,3,0,9,0,12,3,1,4,9,0,7,2,2,0,0,5,9,6,1,0,3,7,7,0,1,4,10,4,8,0,2,0,0,3,8,7,2,2,2,8,2,2,4,3,5,4,7,8,4,7,0,3,8,0,2,0,0,5,3,7,9,2,2,3,4,12,8,8,0,3,0,2,7,8,3,3,7,7,2,0,7,7,13,2,3,7,0,7,3,7,3,3,9,2,7,4,1,0,0,0,2,7,1,4,0,7,2,11,2,8,2,9,13,0,3,7,12,2,3,7,7,3,2,7,2,1,9,2,4,3,2,8,5,4,2,2,3,2,2,4,2,8,1,8,2,0,3,2,2,7,3,0,3,12,2,10,7,2,4,7,8,0,0,12,9,4,7,7,8,2,3,8,0,2,0,0,1,0,0,7,6,5,0,2,2,1,7,2,4,0,9,2,2,13,3,4,7,2,0,0,9,13,2,4,8,1,4,12,1,7,8,9,2,3,0,7,10,3,1,0,0,2,0,1,2,2,2,8,7,10,4,3,5,10,2,7,2,2,8,1,10,2,3,0,2,10,0,7,2,2,2,7,1,2,2,5,7,8,3,0,0,7,3,7,10,9,9,0,6,2,8,0,7,7,8,8,7,2,0,9,4,7,17,13,2,8,2,2,2,2],"type":"scatter3d","mode":"markers","marker":{"color":"rgba(102,194,165,0.8)","size":7,"line":{"color":"rgba(102,194,165,1)"}},"name":"No","textfont":{"color":"rgba(102,194,165,0.8)"},"error_y":{"color":"rgba(102,194,165,0.8)"},"error_x":{"color":"rgba(102,194,165,0.8)"},"line":{"color":"rgba(102,194,165,0.8)"},"frame":null},{"x":[33,53,35,36,32,18,42,25,36,24,35,52,37,35,29,37,46,32,29,39,31,39,28,20,55,26,40,28,43,38,45,47,37,25,31,31,29,33,32,25,22,34,31,28,58,31,32,44,33,50,29,29,52,36,30,51,21,34,34,31,32,49,28,50,28,35,43,26,29,58,41,30,48,58,28,48,33,41,25,56,28,56,29,24,30,21,36,34,28,24,29,33,19,20,28,27,34,41,18,40,22,33,32,35,29,19,47,30,18,26,24,35,26,39,27,32,29,20,31,46,45,29,36,29,41,52,33,22,19,35,28,31,31,19,18,40,31,30,44,34],"y":[8224,10448,10306,6134,6735,1878,2759,1118,10325,2210,5916,8446,4777,3743,7336,2090,8926,3919,2319,2404,4233,12169,8722,2044,19859,2042,13194,2216,5346,6673,4286,12936,10609,4400,2956,2785,2362,2436,1393,5744,2472,6074,2321,3464,2479,4084,10400,2342,4508,4728,2546,1091,19845,2743,2132,2461,2174,2742,2351,6172,3730,4284,4382,2683,3485,5813,2437,4969,2439,10312,5993,1081,5381,10008,2028,2655,2851,19545,2413,2587,2408,4963,2119,3202,9714,2693,3407,4599,2909,2293,2760,2707,2121,2926,2561,3041,2307,2107,1904,2166,3894,3408,4883,2022,7553,1102,11849,2285,1569,2148,1555,4581,2340,5238,2863,4707,2335,2323,2302,7314,18824,2404,3388,4787,3140,4941,3348,2398,1859,9582,9854,2610,8161,1675,1420,6380,4559,2657,7978,5304],"z":[3,2,0,2,0,0,2,0,7,0,1,7,0,2,10,0,7,7,0,2,2,5,9,2,4,2,0,7,3,0,0,10,7,2,0,0,7,4,0,3,0,6,2,2,0,7,8,3,8,0,1,0,9,14,1,7,2,2,0,7,2,3,1,2,0,7,0,2,0,6,5,0,0,9,3,7,0,8,0,0,0,3,7,4,7,0,3,10,2,0,2,7,0,0,0,2,0,0,0,3,2,3,1,8,7,0,9,0,0,4,0,7,0,0,0,2,0,2,2,7,11,0,0,2,2,7,7,0,0,7,2,2,0,0,0,0,2,4,5,4],"type":"scatter3d","mode":"markers","marker":{"color":"rgba(141,160,203,0.8)","size":7,"line":{"color":"rgba(141,160,203,1)"}},"name":"Yes","textfont":{"color":"rgba(141,160,203,0.8)"},"error_y":{"color":"rgba(141,160,203,0.8)"},"error_x":{"color":"rgba(141,160,203,0.8)"},"line":{"color":"rgba(141,160,203,0.8)"},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>#MULTIPLE LINEAR REGRESSION</p>
+<pre class="r"><code>#model
+fit1 = lm(MonthlyIncome~JobLevel+TotalWorkingYears+YearsWithCurrManager, data=cs2Num)
+fit1</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = MonthlyIncome ~ JobLevel + TotalWorkingYears + YearsWithCurrManager, 
+##     data = cs2Num)
+## 
+## Coefficients:
+##          (Intercept)              JobLevel     TotalWorkingYears  
+##             -1699.16               3717.24                 68.34  
+## YearsWithCurrManager  
+##               -59.33</code></pre>
+<pre class="r"><code>summary(fit1)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = MonthlyIncome ~ JobLevel + TotalWorkingYears + YearsWithCurrManager, 
+##     data = cs2Num)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5643.3  -874.3    34.4   722.3  3920.6 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)          -1699.16     102.13 -16.636  &lt; 2e-16 ***
+## JobLevel              3717.24      68.62  54.175  &lt; 2e-16 ***
+## TotalWorkingYears       68.34      10.44   6.545 1.01e-10 ***
+## YearsWithCurrManager   -59.33      14.74  -4.026 6.18e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1378 on 866 degrees of freedom
+## Multiple R-squared:  0.9105, Adjusted R-squared:  0.9102 
+## F-statistic:  2938 on 3 and 866 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>confint(fit1)</code></pre>
+<pre><code>##                            2.5 %      97.5 %
+## (Intercept)          -1899.61826 -1498.69710
+## JobLevel              3582.57024  3851.91447
+## TotalWorkingYears       47.84485    88.82718
+## YearsWithCurrManager   -88.25860   -30.40320</code></pre>
+<pre class="r"><code>sqrt(mean(fit1$residuals^2)) #RMSE</code></pre>
+<pre><code>## [1] 1374.498</code></pre>
+<pre class="r"><code>#dataframe with only four variables in model for visualization
+cs2_mlr &lt;- data.frame(&quot;MonthlyIncome&quot;=cs2Num$MonthlyIncome, &quot;JobLevel&quot;=cs2Num$JobLevel, &quot;TotalWorkingYears&quot;=cs2Num$TotalWorkingYears, &quot;YearsWithCurrManager&quot;=cs2Num$YearsWithCurrManager)
+str(cs2Num)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    870 obs. of  26 variables:
+##  $ Age                     : int  32 40 35 32 24 27 41 37 34 34 ...
+##  $ DailyRate               : int  117 1308 200 801 567 294 1283 309 1333 653 ...
+##  $ DistanceFromHome        : int  13 14 18 1 2 10 5 10 10 10 ...
+##  $ Education               : int  4 3 2 4 1 2 5 4 4 4 ...
+##  $ EmployeeCount           : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ EmployeeNumber          : int  859 1128 1412 2016 1646 733 1448 1105 1055 1597 ...
+##  $ EnvironmentSatisfaction : int  2 3 3 3 1 4 2 4 3 4 ...
+##  $ HourlyRate              : int  73 44 60 48 32 32 90 88 87 92 ...
+##  $ JobInvolvement          : int  3 2 3 3 3 3 4 2 3 2 ...
+##  $ JobLevel                : int  2 5 3 3 1 3 1 2 1 2 ...
+##  $ JobSatisfaction         : int  4 3 4 4 4 1 3 4 3 3 ...
+##  $ MonthlyIncome           : int  4403 19626 9362 10422 3760 8793 2127 6694 2220 5063 ...
+##  $ MonthlyRate             : int  9250 17544 19944 24032 17218 4809 5561 24223 18410 15332 ...
+##  $ NumCompaniesWorked      : int  2 1 2 1 1 1 2 2 1 1 ...
+##  $ PercentSalaryHike       : int  11 14 11 19 13 21 12 14 19 14 ...
+##  $ PerformanceRating       : int  3 3 3 3 3 4 3 3 3 3 ...
+##  $ RelationshipSatisfaction: int  3 1 3 3 3 3 1 3 4 2 ...
+##  $ StandardHours           : int  80 80 80 80 80 80 80 80 80 80 ...
+##  $ StockOptionLevel        : int  1 0 0 2 0 2 0 3 1 1 ...
+##  $ TotalWorkingYears       : int  8 21 10 14 6 9 7 8 1 8 ...
+##  $ TrainingTimesLastYear   : int  3 2 2 3 2 4 5 5 2 3 ...
+##  $ WorkLifeBalance         : int  2 4 3 3 3 2 2 3 3 2 ...
+##  $ YearsAtCompany          : int  5 20 2 14 6 9 4 1 1 8 ...
+##  $ YearsInCurrentRole      : int  2 7 2 10 3 7 2 0 1 2 ...
+##  $ YearsSinceLastPromotion : int  0 4 2 5 1 1 0 0 0 7 ...
+##  $ YearsWithCurrManager    : int  3 9 2 7 3 7 3 0 0 7 ...</code></pre>
+<pre class="r"><code>pairs(cs2_mlr[,1:4],lower.panel=NULL) #visualization</code></pre>
+<p><img src="HallePurdom_CaseStudy2_files/figure-html/unnamed-chunk-4-1.png" width="672" /> #Predicting Attrition and Monthly Income csv submissions</p>
+<pre class="r"><code>#Case2PredictionsXXXX Attrition.csv
+noA = read.csv(&quot;/Users/hallepurdom/RStudio Projects/MSDS_6306_Doing-Data-Science/Unit 14 and 15 Case Study 2/CaseStudy2CompSet No Attrition.csv&quot;,header=TRUE)
+head(noA)</code></pre>
+<pre><code>##     ID Age    BusinessTravel DailyRate             Department DistanceFromHome
+## 1 1171  35     Travel_Rarely       750 Research &amp; Development               28
+## 2 1172  33     Travel_Rarely       147        Human Resources                2
+## 3 1173  26     Travel_Rarely      1330 Research &amp; Development               21
+## 4 1174  55     Travel_Rarely      1311 Research &amp; Development                2
+## 5 1175  29     Travel_Rarely      1246                  Sales               19
+## 6 1176  51 Travel_Frequently      1456 Research &amp; Development                1
+##   Education  EducationField EmployeeCount EmployeeNumber
+## 1         3   Life Sciences             1           1596
+## 2         3 Human Resources             1           1207
+## 3         3         Medical             1           1107
+## 4         3   Life Sciences             1            505
+## 5         3   Life Sciences             1           1497
+## 6         4         Medical             1            145
+##   EnvironmentSatisfaction Gender HourlyRate JobInvolvement JobLevel
+## 1                       2   Male         46              4        2
+## 2                       2   Male         99              3        1
+## 3                       1   Male         37              3        1
+## 4                       3 Female         97              3        4
+## 5                       3   Male         77              2        2
+## 6                       1 Female         30              2        3
+##                     JobRole JobSatisfaction MaritalStatus MonthlyIncome
+## 1     Laboratory Technician               3       Married          3407
+## 2           Human Resources               3       Married          3600
+## 3     Laboratory Technician               3      Divorced          2377
+## 4                   Manager               4        Single         16659
+## 5           Sales Executive               3      Divorced          8620
+## 6 Healthcare Representative               1        Single          7484
+##   MonthlyRate NumCompaniesWorked Over18 OverTime PercentSalaryHike
+## 1       25348                  1      Y       No                17
+## 2        8429                  1      Y       No                13
+## 3       19373                  1      Y       No                20
+## 4       23258                  2      Y      Yes                13
+## 5       23757                  1      Y       No                14
+## 6       25796                  3      Y       No                20
+##   PerformanceRating RelationshipSatisfaction StandardHours StockOptionLevel
+## 1                 3                        4            80                2
+## 2                 3                        4            80                1
+## 3                 4                        3            80                1
+## 4                 3                        3            80                0
+## 5                 3                        3            80                2
+## 6                 4                        3            80                0
+##   TotalWorkingYears TrainingTimesLastYear WorkLifeBalance YearsAtCompany
+## 1                10                     3               2             10
+## 2                 5                     2               3              5
+## 3                 1                     0               2              1
+## 4                30                     2               3              5
+## 5                10                     3               3             10
+## 6                23                     1               2             13
+##   YearsInCurrentRole YearsSinceLastPromotion YearsWithCurrManager
+## 1                  9                       6                    8
+## 2                  4                       1                    4
+## 3                  1                       0                    0
+## 4                  4                       1                    2
+## 5                  7                       0                    4
+## 6                 12                      12                    8</code></pre>
+<pre class="r"><code>DFnoA = data.frame(scale(noA$Age), scale(noA$MonthlyIncome),scale(noA$YearsWithCurrManager))
+
+classifications = knn(cs2Stan[,c(2,20,36)],DFnoA[,c(1,2,3)],cs2Stan$Attrition, k = 45,prob = TRUE)
+
+Attrition = data.frame(&quot;ID&quot; = noA$ID, &quot;Attrition&quot;=classifications)
+write.csv(Attrition, &quot;/Users/hallepurdom/Desktop/Case2PredictionsPurdom Attrition.csv&quot;, row.names=FALSE)
+
+#Case2PredictionsXXXX Salary.csv
+noSal = read_excel(&quot;/Users/hallepurdom/RStudio Projects/MSDS_6306_Doing-Data-Science/Unit 14 and 15 Case Study 2/CaseStudy2CompSet No Salary.xlsx&quot;)
+head(noSal)</code></pre>
+<pre><code>## # A tibble: 6 x 35
+##      ID   Age Attrition BusinessTravel DailyRate Department DistanceFromHome
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;                 &lt;dbl&gt;
+## 1   871    43 No        Travel_Freque…      1422 Sales                     2
+## 2   872    33 No        Travel_Rarely        461 Research …               13
+## 3   873    55 Yes       Travel_Rarely        267 Sales                    13
+## 4   874    36 No        Non-Travel          1351 Research …                9
+## 5   875    27 No        Travel_Rarely       1302 Research …               19
+## 6   876    39 Yes       Travel_Rarely        895 Sales                     5
+## # … with 28 more variables: Education &lt;dbl&gt;, EducationField &lt;chr&gt;,
+## #   EmployeeCount &lt;dbl&gt;, EmployeeNumber &lt;dbl&gt;, EnvironmentSatisfaction &lt;dbl&gt;,
+## #   Gender &lt;chr&gt;, HourlyRate &lt;dbl&gt;, JobInvolvement &lt;dbl&gt;, JobLevel &lt;dbl&gt;,
+## #   JobRole &lt;chr&gt;, JobSatisfaction &lt;dbl&gt;, MaritalStatus &lt;chr&gt;,
+## #   MonthlyRate &lt;dbl&gt;, NumCompaniesWorked &lt;dbl&gt;, Over18 &lt;chr&gt;, OverTime &lt;chr&gt;,
+## #   PercentSalaryHike &lt;dbl&gt;, PerformanceRating &lt;dbl&gt;,
+## #   RelationshipSatisfaction &lt;dbl&gt;, StandardHours &lt;dbl&gt;,
+## #   StockOptionLevel &lt;dbl&gt;, TotalWorkingYears &lt;dbl&gt;,
+## #   TrainingTimesLastYear &lt;dbl&gt;, WorkLifeBalance &lt;dbl&gt;, YearsAtCompany &lt;dbl&gt;,
+## #   YearsInCurrentRole &lt;dbl&gt;, YearsSinceLastPromotion &lt;dbl&gt;,
+## #   YearsWithCurrManager &lt;dbl&gt;</code></pre>
+<pre class="r"><code>noSal &lt;- as.data.frame(noSal)
+
+DFnoSal = data.frame(&quot;JobLevel&quot;=noSal$JobLevel,&quot;TotalWorkingYears&quot;=noSal$TotalWorkingYears,&quot;YearsWithCurrManager&quot;=noSal$YearsWithCurrManager)
+predictions = predict(fit1, newdata = DFnoSal)
+
+Salary = data.frame(&quot;ID&quot; = noSal$ID, &quot;MonthlyIncome&quot;=predictions)
+write.csv(Salary, &quot;/Users/hallepurdom/Desktop/Case2PredictionsPurdom Salary.csv&quot;, row.names=FALSE)</code></pre>
+<p>#Conclusion #In conclusion, the 45-nn model built to classify attrition works with 84% accuracy and sensitivity, and 75% specificity based on internal cross validation techniques. This model uses age, monthly income, and years with current manager to predict attrition. The multiple linear regression model used to predict salary has an RMSE of $1374.498 and uses the variables job level, total working years, and years with current manager.</p>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
